@@ -1,0 +1,21 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:batch="http://www.springframework.org/schema/batch"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/batch
+	http://www.springframework.org/schema/batch/spring-batch-2.2.xsd">
+
+    <bean id="reader" class="com.yanhua365.learn.spring.batch.simple.item.DummyItemReader"/>
+    <bean id="writer" class="com.yanhua365.learn.spring.batch.simple.item.LogItemWriter"/>
+    <bean id="processor" class="com.yanhua365.learn.spring.batch.simple.item.LogItemProcessor"/>
+
+    <batch:job id="job">
+        <batch:step id="step">
+            <batch:tasklet>
+                <batch:chunk reader="reader" writer="writer" processor="processor" commit-interval="2"/>
+            </batch:tasklet>
+        </batch:step>
+    </batch:job>
+
+</beans>
