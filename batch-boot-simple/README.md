@@ -17,7 +17,7 @@ mvn -Dspring.profiles.active=mem_db spring-boot:run
 一个H2的控制台,我们稍后会使用它,现在先执行:
 
 ```
-mvn -Dspring.profiles.active=mem_db spring-boot:run
+mvn -Dspring.profiles.active=server_db spring-boot:run
 ```
 
 从控制台中可以看到job的运行过程.
