@@ -20,12 +20,6 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
 
-    @Bean(name = "dataSource")
-    @Profile("mem_db")
-    public DataSource getH2MemDataSource(){
-        return new SimpleDriverDataSource(new Driver(), "jdbc:h2:mem:learn_batch_file2file", "sa", "");
-    }
-
 
     @Bean(name = "dataSource")
     @Profile("server_db")

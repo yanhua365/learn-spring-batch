@@ -23,13 +23,6 @@ public class Application {
 
 
     @Bean(name = "dataSource")
-    @Profile("mem_db")
-    public DataSource getH2MemDataSource(){
-        return new SimpleDriverDataSource(new Driver(), "jdbc:h2:mem:learn_batch_file2file", "sa", "");
-    }
-
-
-    @Bean(name = "dataSource")
     @Profile("server_db")
     public DataSource getH2ServerDataSource(){
         return new SimpleDriverDataSource(new Driver(), "jdbc:h2:tcp://localhost/~/h2data/batch-simple", "sa", "");
