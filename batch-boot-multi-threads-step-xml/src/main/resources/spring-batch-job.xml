@@ -12,7 +12,7 @@
 
     <batch:job id="job">
         <batch:step id="step">
-            <batch:tasklet task-executor="taskExecutor" throttle-limit="20">
+            <batch:tasklet task-executor="taskExecutor">
                 <batch:chunk reader="reader" writer="writer" processor="processor" commit-interval="2"/>
             </batch:tasklet>
         </batch:step>

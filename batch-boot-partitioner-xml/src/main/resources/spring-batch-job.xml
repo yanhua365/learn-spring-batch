@@ -1,0 +1,40 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:batch="http://www.springframework.org/schema/batch"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/batch
+	http://www.springframework.org/schema/batch/spring-batch-2.2.xsd">
+
+
+
+    <batch:job id="job">
+        <batch:step id="readAndWrite">
+            <batch:partition step="partitionReadAndWrite" partitioner="partitioner">
+                <batch:handler task-executor="taskExecutor" grid-size="2"/>
+            </batch:partition>
+        </batch:step>
+
+    </batch:job>
+    <batch:step id="partitionReadAndWrite">
+            <batch:tasklet task-executor="taskExecutor">
+                <batch:chunk reader="reader" writer="writer" processor="processor" commit-interval="2"/>
+            </batch:tasklet>
+        </batch:step>
+    <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <property name="corePoolSize" value="5"/>
+        <property name="maxPoolSize" value="5"/>
+    </bean>
+
+
+    <bean id="reader" scope="step" class="com.yanhua365.learn.spring.batch.partitioner.item.DummyItemReader">
+        <property name="start" value="#{stepExecutionContext[start]}"/>
+        <property name="end" value="#{stepExecutionContext[end]}"/>
+    </bean>
+    <bean id="writer" class="com.yanhua365.learn.spring.batch.partitioner.item.LogItemWriter"/>
+    <bean id="processor" class="com.yanhua365.learn.spring.batch.partitioner.item.LogItemProcessor"/>
+    <bean id="partitioner" class="com.yanhua365.learn.spring.batch.partitioner.item.DummyPartitioner"/>
+
+    <bean class="org.springframework.batch.core.scope.StepScope"/>
+
+</beans>
