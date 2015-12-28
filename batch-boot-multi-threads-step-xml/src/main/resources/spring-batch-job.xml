@@ -1,0 +1,26 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:batch="http://www.springframework.org/schema/batch"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/batch
+	http://www.springframework.org/schema/batch/spring-batch-2.2.xsd">
+
+    <bean id="reader" class="com.yanhua365.learn.spring.batch.multi_threads_step.item.DummyItemReader"/>
+    <bean id="writer" class="com.yanhua365.learn.spring.batch.multi_threads_step.item.LogItemWriter"/>
+    <bean id="processor" class="com.yanhua365.learn.spring.batch.multi_threads_step.item.LogItemProcessor"/>
+
+    <batch:job id="job">
+        <batch:step id="step">
+            <batch:tasklet task-executor="taskExecutor" throttle-limit="20">
+                <batch:chunk reader="reader" writer="writer" processor="processor" commit-interval="2"/>
+            </batch:tasklet>
+        </batch:step>
+    </batch:job>
+
+    <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <property name="corePoolSize" value="5"/>
+        <property name="maxPoolSize" value="5"/>
+    </bean>
+
+</beans>
