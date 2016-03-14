@@ -17,7 +17,7 @@
 
     </batch:job>
     <batch:step id="partitionReadAndWrite">
-            <batch:tasklet task-executor="taskExecutor">
+            <batch:tasklet>
                 <batch:chunk reader="reader" writer="writer" processor="processor" commit-interval="2"/>
             </batch:tasklet>
         </batch:step>
